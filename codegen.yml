@@ -1,0 +1,40 @@
+overwrite: true
+schema: "./schema.gql"
+
+documents:
+  - ./src/**/*.js
+  - ./src/**/*.ts
+  - ./src/**/*.tsx
+
+generates:
+  types.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+      - add:
+          content: "/* eslint-disable */"
+    config:
+      exportFragmentSpreadSubTypes: true
+      arrayInputCoercion: false
+      useImplementingTypes: true
+      nonOptionalTypename: true
+      useTypeImports: true
+      namingConvention:
+        typeNames: "change-case-all#pascalCase"
+        enumValues: "keep"
+
+  mocks.ts:
+    plugins:
+      - typescript-mock-data
+      - add:
+          content: "/* eslint-disable */"
+
+    config:
+      generateLibrary: faker
+      addTypename: true
+      dynamicValues: true
+      terminateCircularRelationships: true
+      enumValues: "keep"
+      typesFile: "./types.ts"
+      useImplementingTypes: true
+      useTypeImports: true
